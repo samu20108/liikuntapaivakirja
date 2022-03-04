@@ -1,8 +1,18 @@
-import { Box, Stack, Button, Typography, Divider } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Button,
+  Typography,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
 import { useGlobalContext } from "./context";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { width } from "@mui/system";
 
 function Main() {
   const { activityList, totalDuration, totalDurationWeek } = useGlobalContext();
@@ -45,7 +55,7 @@ function Main() {
             width: "100%",
           }}
         >
-          <Typography variant="h3" sx={{ wordBreak: "break-all" }}>
+          <Typography variant="h3" sx={{ wordBreak: "break-word" }}>
             Liikuntapäiväkirja
           </Typography>
 
@@ -76,50 +86,75 @@ function Main() {
           >
             Lisää uusi aktiviteetti
           </Button>
-          <Box
+
+          <List
             sx={{
-              display: "flex",
               alignItems: "center",
-              justifyContent: "center",
-              flexWrap: "wrap",
+              width: "fit-content",
+              maxWidth: "100%",
             }}
           >
             {showList ? (
               activityList.map((activity, index) => {
                 return (
-                  <Stack
-                    spacing={1}
+                  <ListItem
+                    disableGutters
                     key={index}
                     sx={{
-                      margin: "4px",
-                      padding: "10px",
+                      margin: "4px 0 4px 0",
+                      padding: "5px",
                       borderRadius: "10px",
                       boxShadow: "0px 2px 10px rgb(175, 175, 175)",
-                      textAlign: "center",
+                      textAlign: "left",
+                      alignItems: "flex-start",
+                      wordWrap: "break-word",
                     }}
                   >
-                    <Typography variant="h5">
-                      {activity.activityName}
-                    </Typography>
-                    <Divider />
-                    <Typography>
-                      Aloitus:{" "}
-                      {format(
+                    <ListItemText
+                      primary="Aktiviteetti "
+                      secondary={activity.activityName}
+                    ></ListItemText>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      light={true}
+                      sx={{ margin: "4px" }}
+                    />
+                    <ListItemText
+                      primary="Aloitus "
+                      secondary={format(
                         new Date(activity.startTime),
                         "dd.MM.yyyy' 'HH:mm"
                       )}
-                    </Typography>
-                    <Typography>
-                      Lopetus:{" "}
-                      {format(new Date(activity.endTime), "dd.MM.yyyy' 'HH:mm")}
-                    </Typography>
-                    <Divider />
-                    <Typography>
-                      Käytetty aika: <br />
-                      {Number(activity.duration.hours).toFixed()}h{" "}
-                      {Number(activity.duration.minutes).toFixed()}min
-                    </Typography>
-                  </Stack>
+                      sx={{ width: "min-content" }}
+                    ></ListItemText>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      light={true}
+                      sx={{ margin: "4px" }}
+                    />
+
+                    <ListItemText
+                      primary="Lopetus "
+                      secondary={format(
+                        new Date(activity.endTime),
+                        "dd.MM.yyyy' 'HH:mm"
+                      )}
+                      sx={{ width: "min-content" }}
+                    ></ListItemText>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      light={true}
+                      sx={{ margin: "4px" }}
+                    />
+                    <ListItemText
+                      primary="Käytetty aika "
+                      secondary={`${Number(activity.duration.hours).toFixed()}h
+                        ${Number(activity.duration.minutes).toFixed()}min`}
+                    ></ListItemText>
+                  </ListItem>
                 );
               })
             ) : (
@@ -127,7 +162,7 @@ function Main() {
                 Ei suoritettuja aktiviteetteja
               </Typography>
             )}
-          </Box>
+          </List>
         </Stack>
       </Box>
     </Box>
