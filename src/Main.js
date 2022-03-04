@@ -12,7 +12,6 @@ import { useGlobalContext } from "./context";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { width } from "@mui/system";
 
 function Main() {
   const { activityList, totalDuration, totalDurationWeek } = useGlobalContext();
